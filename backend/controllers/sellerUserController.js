@@ -1,5 +1,6 @@
 const {
   getSellerUsersRepo,
+  getSellerUserRepo,
   createSellerUserRepo,
   updateSellerUserRepo,
   deleteSellerUserRepo
@@ -13,6 +14,17 @@ const getSellerUsers = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+const getSellerUserById = async (req, res) => {
+  
+  try {
+    const { id } = req.params;
+    const user = await getSellerUserRepo(id);
+    res.status(200).send(user)
+  } catch(error) {
+    res.status(500).send(error);
+  }
+}
 
 const createSellerUser = async (req, res) => {
   try {
@@ -70,4 +82,5 @@ module.exports = {
   createSellerUser,
   updateSellerUser,
   deleteSellerUser,
+  getSellerUserById
 };

@@ -1,5 +1,6 @@
 const {
   getBuyerUsersRepo,
+  getBuyerUserRepo,
   createBuyerUserRepo,
   updateBuyerUserRepo,
   deleteBuyerUserRepo
@@ -10,6 +11,17 @@ const getBuyerUsers = async (req, res) => {
   try {
     const users = await getBuyerUsersRepo();
     res.status(200).send(users);
+  } catch(error) {
+    res.status(500).send(error);
+  }
+}
+
+const getBuyerUserById = async (req, res) => {
+  
+  try {
+    const { id } = req.params;
+    const user = await getBuyerUserRepo(id);
+    res.status(200).send(user)
   } catch(error) {
     res.status(500).send(error);
   }
@@ -69,5 +81,6 @@ module.exports = {
   getBuyerUsers,
   createBuyerUser,
   updateBuyerUser,
-  deleteBuyerUser
+  deleteBuyerUser,
+  getBuyerUserById
 }

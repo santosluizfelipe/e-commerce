@@ -5,7 +5,7 @@ const db = require("./models");
 
 app.use(express.json());
 
-app.use("/api", require("./routes/sellerUserRoutes"));
+app.use("/api/sellerUsers", require("./routes/sellerUserRoutes"));
 
 app.use("/api/buyerUsers", require("./routes/buyerUserRoutes"));
 
