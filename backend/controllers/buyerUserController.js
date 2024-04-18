@@ -1,23 +1,24 @@
 const {
-  getSellerUsersRepo,
-  createSellerUserRepo,
-  updateSellerUserRepo,
-  deleteSellerUserRepo
-} = require("../repositories/sellerUserRepo");
+  getBuyerUsersRepo,
+  createBuyerUserRepo,
+  updateBuyerUserRepo,
+  deleteBuyerUserRepo
+} = require("../repositories/buyerUserRepo");
 
-const getSellerUsers = async (req, res) => {
+
+const getBuyerUsers = async (req, res) => {
   try {
-    const users = await getSellerUsersRepo();
+    const users = await getBuyerUsersRepo();
     res.status(200).send(users);
-  } catch (error) {
+  } catch(error) {
     res.status(500).send(error);
   }
-};
+}
 
-const createSellerUser = async (req, res) => {
+const createBuyerUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
-    const newUser = await createSellerUserRepo({
+    const newUser = await createBuyerUserRepo({
       firstName,
       lastName,
       email,
@@ -25,19 +26,18 @@ const createSellerUser = async (req, res) => {
     });
     res.status(201).json(newUser);
   } catch (error) {
-    console.error("Error creating seller user:", error);
+    console.error("Error creating buyer user:", error);
     res.status(500).send(error);
   }
 };
 
-
-const updateSellerUser = async (req, res) => {
+const updateBuyerUser = async (req, res) => {
   try {
     const { id } = req.params;
     const { firstName, lastName, email, password } = req.body;
 
     // Call the repository function to update the user
-    const updatedUser = await updateSellerUserRepo(id, {
+    const updatedUser = await updateBuyerUserRepo(id, {
       firstName,
       lastName,
       email,
@@ -50,12 +50,12 @@ const updateSellerUser = async (req, res) => {
   }
 };
 
-const deleteSellerUser = async (req, res) => {
+const deleteBuyerUser = async (req, res) => {
   try {
     const { id } = req.params;
 
     // Call the repository function to delete the user
-    await deleteSellerUserRepo(id);
+    await deleteBuyerUserRepo(id);
 
     // Send a success response
     res.status(204).send();
@@ -66,8 +66,8 @@ const deleteSellerUser = async (req, res) => {
 };
 
 module.exports = {
-  getSellerUsers,
-  createSellerUser,
-  updateSellerUser,
-  deleteSellerUser,
-};
+  getBuyerUsers,
+  createBuyerUser,
+  updateBuyerUser,
+  deleteBuyerUser
+}

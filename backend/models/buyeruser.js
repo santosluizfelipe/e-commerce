@@ -1,12 +1,12 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class SellerUser extends Model {
+  class BuyerUser extends Model {
     static associate(models) {
       // define association here
     }
   }
-  SellerUser.init(
+  BuyerUser.init(
     {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'SellerUser',
-      tableName: 'SellerUsers' 
+      modelName: 'BuyerUser',
+      tableName: 'BuyerUsers' 
     }
   );
-  return SellerUser;
+  return BuyerUser;
 };
 

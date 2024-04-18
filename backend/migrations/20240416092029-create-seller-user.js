@@ -10,9 +10,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       firstName: {
+        field: 'firstName', 
         type: Sequelize.STRING
       },
       lastName: {
+        field: 'lastName', 
         type: Sequelize.STRING
       },
       email: {
