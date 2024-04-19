@@ -8,11 +8,12 @@ const sellerUserRoutes = require("./routes/sellerUserRoutes")
 
 app.use(express.json());
 
-app.use("/api/sellerUsers", sellerUserRoutes);
 
 app.use("/api/buyerUsers", buyerUserRoutes);
+app.use("/api/sellerUsers", sellerUserRoutes);
+app.use("/api/products", productRoutes);
 
-app.use("/api/:sellerUserId", productRoutes);
+
 
 db.sequelize.sync().then(() => {
   app.listen("3001", () => {

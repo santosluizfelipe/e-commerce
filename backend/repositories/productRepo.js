@@ -2,7 +2,7 @@ const { Product } = require('../models');
 
 const getProductsBySellerUserRepo = async (sellerUserId) => {
   try {
-    const products = await Product.findAll({where: { sellerUserId }});
+    const products = await Product.findAll({ where: { sellerUserId: sellerUserId } });
     return products;
   } catch (error) {
     console.error('Error fetching products', error);
@@ -10,14 +10,19 @@ const getProductsBySellerUserRepo = async (sellerUserId) => {
   }
 };
 
+
+
 const getProductBySellerUserAndIdRepo = async (sellerUserId, productId) => {
   try {
-    const product = await Product.findOne({ where: {id: productId, sellerUserId} });
+    const product = await Product.findOne({ where: { id: productId, sellerUserId } });
+    return product;
   } catch (error) {
     console.error('Error fetching product', error)
     throw error;
   }
-}
+};
+
+
 
 const createProductForSellerUserRepo = async (productData) => {
   try {

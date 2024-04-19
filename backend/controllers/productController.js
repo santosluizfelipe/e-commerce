@@ -5,11 +5,12 @@ const {
   updateProductForSellerUserRepo,
   deleteProductForSellerUserRepo,
 } = require("../repositories/productRepo");
+
 // Controller method to get all products belonging to a specific seller user
 async function getProductsBySellerUser(req, res) {
   try {
     const { sellerUserId } = req.params;
-    const products = await getProductsBySellerUserRepo({ where: { sellerUserId } });
+    const products = await getProductsBySellerUserRepo(sellerUserId);
     res.json(products);
   } catch (error) {
     console.error(error);
@@ -17,13 +18,12 @@ async function getProductsBySellerUser(req, res) {
   }
 }
 
+
 // Controller method to get a specific product belonging to a specific seller user
 async function getProductBySellerUserAndId(req, res) {
   try {
     const { sellerUserId, productId } = req.params;
-    const product = await getProductBySellerUserAndIdRepo({
-      where: { id: productId, sellerUserId },
-    });
+    const product = await getProductBySellerUserAndIdRepo(sellerUserId, productId); // Pass parameters directly
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -33,6 +33,7 @@ async function getProductBySellerUserAndId(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
 
 // Controller method to create a new product for a specific seller user
 async function createProductForSellerUser(req, res) {
