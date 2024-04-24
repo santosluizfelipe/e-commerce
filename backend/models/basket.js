@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   Basket.init(
     {
       // Define any additional fields you need for the Basket model
+      //update this table
     },
     {
       sequelize,
