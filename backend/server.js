@@ -12,6 +12,7 @@ app.use(express.json());
 app.use("/api/buyerUsers", buyerUserRoutes);
 app.use("/api/sellerUsers", sellerUserRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/basket", basketRoutes);
 
 
 

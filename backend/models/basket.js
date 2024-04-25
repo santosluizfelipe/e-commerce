@@ -1,5 +1,5 @@
 'use strict';
-const { Model } = require('sequelize');
+const { Model, Op } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Basket extends Model {
@@ -10,17 +10,33 @@ module.exports = (sequelize, DataTypes) => {
       });
       Basket.belongsToMany(models.Product, { through: 'BasketProducts' });
     }
+
+    get totalPrice() {
+      if (!this.Products || this.Products.length === 0) {
+        return 0;
+      }
+      return this.Products.reduce((total, product) => total + product.price, 0);
+    }
   }
 
   Basket.init(
     {
-      // Define any additional fields you need for the Basket model
-      //update this table
+      quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1 
+      },
     },
     {
       sequelize,
       modelName: 'Basket',
-      tableName: 'Baskets' 
+      tableName: 'Baskets',
+      defaultScope: {
+        include: {
+          model: sequelize.models.Product, 
+          attributes: ['name', 'price', 'photos'] 
+        }
+      }
     }
   );
 
