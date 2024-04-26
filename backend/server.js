@@ -4,7 +4,8 @@ const db = require("./models");
 
 const productRoutes = require("./routes/productRoutes");
 const buyerUserRoutes = require("./routes/buyerUserRoutes");
-const sellerUserRoutes = require("./routes/sellerUserRoutes")
+const sellerUserRoutes = require("./routes/sellerUserRoutes");
+const basketRoutes = require("./routes/basketRoutes");
 
 app.use(express.json());
 
