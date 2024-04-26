@@ -10,7 +10,6 @@ const {
 
 const createBasket = async (req, res) => {
   try {
-    console.log("=======>", req)
     // Create a new basket using data from the request body
     const newBasket = await createBasketRepo({
       buyerUserId: req.body.buyerUserId, // Assuming user ID is available in req.user after authentication
@@ -48,7 +47,6 @@ const getUserBaskets = async (req, res) => {
 const addProductToBasket = async (req, res) => {
   try {
     const { id } = req.params;
-    // Add product to the specified basket using data from the request body
     const updatedBasket = await addProductToBasketRepo(id, req.body.productId, req.body.quantity);
     res.status(200).json(updatedBasket);
   } catch (error) {
