@@ -1,4 +1,6 @@
 const { Basket, Product } = require("../models");
+const { sequelize } = require("../config/sequelize")
+
 
 const createBasketRepo = async (basketData) => {
   try {
@@ -10,17 +12,8 @@ const createBasketRepo = async (basketData) => {
   }
 };
 
-const getBasketByIdRepo = async (basketId) => {
-  try {
-    const basket = await Basket.findByPk(basketId);
-    return basket;
-  } catch (error) {
-    console.error("Error fetching basket:", error);
-    throw error;
-  }
-};
-
 const getUserBasketsRepo = async (userId) => {
+  
   try {
     const userBaskets = await Basket.findAll({
       where: {
@@ -34,15 +27,13 @@ const getUserBasketsRepo = async (userId) => {
   }
 };
 
+
 const addProductToBasketRepo = async (basketId, productId, quantity) => {
   try {
-    // Find the basket by ID
     const basket = await Basket.findByPk(basketId);
     if (!basket) {
       throw new Error("Basket not found");
     }
-    
-    // Find the product by ID
     const product = await Product.findByPk(productId);
     if (!product) {
       throw new Error("Product not found");
@@ -99,7 +90,7 @@ const deleteBasketRepo = async (basketId) => {
 
 module.exports = {
   createBasketRepo,
-  getBasketByIdRepo,
+  // getBasketByIdRepo,
   getUserBasketsRepo,
   addProductToBasketRepo,
   updateBasketRepo,

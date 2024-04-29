@@ -24,18 +24,18 @@ module.exports = (sequelize, DataTypes) => {
       quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 1 
+        defaultValue: 0
       },
+      buyerUserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      }
     },
     {
       sequelize,
       modelName: 'Basket',
       tableName: 'Baskets',
       defaultScope: {
-        include: {
-          model: sequelize.models.Product, 
-          attributes: ['name', 'price', 'photos'] 
-        }
       }
     }
   );

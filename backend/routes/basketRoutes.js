@@ -2,16 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 
-const { createBasket, getBasketById, getUserBaskets, addProductToBasket, updateBasket, removeProductFromBasket, deleteBasket } = require("../controllers/basketController")
+const { createBasket, getUserBaskets, addProductToBasket, updateBasket, removeProductFromBasket, deleteBasket } = require("../controllers/basketController")
 
 
-router.post('/baskets', createBasket);
+router.post('/createBasket', createBasket);
 
 
-router.get('/baskets/:id', getBasketById);
-
-
-router.get('/baskets', getUserBaskets);
+router.get('/baskets/:buyerUserId', getUserBaskets);
 
 
 router.post('/baskets/:id/products', addProductToBasket);

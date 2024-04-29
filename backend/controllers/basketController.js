@@ -1,19 +1,19 @@
 const {
   createBasketRepo,
-  getBasketByIdRepo,
+  // getBasketByIdRepo,
   getUserBasketsRepo,
   addProductToBasketRepo,
   updateBasketRepo,
   removeProductFromBasketRepo,
-  deleteBasketRepo
+  deleteBasketRepo,
 } = require("../repositories/basketRepo");
 
 const createBasket = async (req, res) => {
   try {
     // Create a new basket using data from the request body
     const newBasket = await createBasketRepo({
-      buyerUserId: req.body.buyerUserId, // Assuming user ID is available in req.user after authentication
-      // Other basket properties can be extracted from req.body
+      buyerUserId: req.body.buyerUserId,
+      
     });
     res.status(201).json(newBasket);
   } catch (error) {
@@ -22,21 +22,10 @@ const createBasket = async (req, res) => {
   }
 };
 
-const getBasketById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const basket = await getBasketByIdRepo(id);
-    res.status(200).send(basket);
-  } catch (error) {
-    console.error("Error fetching basket:", error);
-    res.status(500).send(error);
-  }
-};
-
 const getUserBaskets = async (req, res) => {
+  console.log("++++++++", req.params)
   try {
-    // Retrieve baskets associated with the authenticated user
-    const baskets = await getUserBasketsRepo(req.user.id); // Assuming user ID is available in req.user after authentication
+    const baskets = await getUserBasketsRepo(req.params.buyerUserId);
     res.status(200).send(baskets);
   } catch (error) {
     console.error("Error fetching user baskets:", error);
@@ -47,7 +36,11 @@ const getUserBaskets = async (req, res) => {
 const addProductToBasket = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedBasket = await addProductToBasketRepo(id, req.body.productId, req.body.quantity);
+    const updatedBasket = await addProductToBasketRepo(
+      id,
+      req.body.productId,
+      req.body.quantity
+    );
     res.status(200).json(updatedBasket);
   } catch (error) {
     console.error("Error adding product to basket:", error);
@@ -93,10 +86,9 @@ const deleteBasket = async (req, res) => {
 
 module.exports = {
   createBasket,
-  getBasketById,
   getUserBaskets,
   addProductToBasket,
   updateBasket,
   removeProductFromBasket,
-  deleteBasket
+  deleteBasket,
 };

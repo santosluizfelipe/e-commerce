@@ -22,8 +22,6 @@ const getProductBySellerUserAndIdRepo = async (sellerUserId, productId) => {
   }
 };
 
-// new comment
-
 
 const createProductForSellerUserRepo = async (productData) => {
   try {
