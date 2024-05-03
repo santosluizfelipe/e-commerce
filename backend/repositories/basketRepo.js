@@ -1,4 +1,4 @@
-const { Basket, Product } = require("../models").default;
+const { Basket, Product } = require("../models");
 const { sequelize } = require("../config/sequelize")
 
 

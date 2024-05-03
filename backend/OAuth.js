@@ -3,7 +3,7 @@ const router = express.Router();
 const dotenv = require('dotenv')
 dotenv.config();
 const {OAuth2Client} = require('google-auth-library');
-const { get } = require("./routes/productRoutes");
+
  
 async function getUserData(access_token){
   const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token${access_token}`);

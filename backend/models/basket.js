@@ -1,5 +1,5 @@
 'use strict';
-const { Model, Op } = require('sequelize');
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Basket extends Model {
