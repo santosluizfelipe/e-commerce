@@ -54,11 +54,38 @@ const Account: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add your logic here to create an account based on the userType
-    console.log("Form submitted with data:", formData);
+    const { userType, ...userData } = formData;
+  
+    try {
+      let endpoint;
+      if (userType === "buying") {
+        endpoint = "http://localhost:3001/api/buyerUsers/createBuyerUser";
+      } else if (userType === "selling") {
+        endpoint = "http://localhost:3001/api/sellerUsers/createSellerUser";
+      } else {
+        throw new Error(`Invalid userType: ${userType}`);
+      }
+  
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+  
+      if (response.ok) {
+        console.log(`${userType} user account created successfully.`);
+      } else {
+        console.error(`Failed to create ${userType} user account.`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+  
 
   return (
     <Modal>
