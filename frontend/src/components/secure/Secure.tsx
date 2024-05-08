@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
 export default function Secure() {
@@ -37,7 +37,11 @@ export default function Secure() {
             <p>Welcome</p>
             <h1 className="name">{userDetails.name}</h1>
             <p className="email">{userDetails.email}</p>
-            <p className="locale">{`Locale: ${userDetails.locale}`}</p>
+            <p className="locale">{`Location: ${userDetails.locale}`}</p>
+            <Link to="/account">
+              <button>Set up your account</button>
+            </Link>
+
           </div>
         </div>
       ) : (
