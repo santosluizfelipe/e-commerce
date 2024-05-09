@@ -5,7 +5,8 @@ import Cookies from "js-cookie";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [isLoggedin, setIsLoggedin] = useState<boolean>(false);
+  const [hasAccount, setHasAccount] = useState<boolean>(false);
 
   const handleClick = () => {
     const callbackUrl = `${window.location.origin}`;
@@ -20,6 +21,8 @@ export default function Login() {
     const accessTokenRegex = /access_token=([^&]+)/;
     const isMatch = window.location.href.match(accessTokenRegex);
 
+
+
     if (isMatch) {
       const accessToken = isMatch[1];
       Cookies.set("access_token", accessToken);
@@ -31,6 +34,7 @@ export default function Login() {
     if (isLoggedin) {
       navigate("/secure");
     }
+
   }, [isLoggedin, navigate]);
 
   return (

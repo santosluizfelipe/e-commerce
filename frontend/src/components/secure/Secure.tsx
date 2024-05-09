@@ -5,8 +5,10 @@ import Cookies from "js-cookie";
 export default function Secure() {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState<any>({});
+  const [buyerEmailExists, setBuyerEmailExists] = useState<boolean>(false)
+  const [sellerEmailExists, setSellerEmailExists] = useState<boolean>(false)
 
-  const getUserDetails = async (accessToken:any) => {
+  const getUserDetails = async (accessToken: any) => {
     const response = await fetch(
       `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${accessToken}`
     );
@@ -14,11 +16,61 @@ export default function Secure() {
     setUserDetails(data);
   };
 
+  const checkIfBuyerUserAlreadyExist = async (email: string) => {
+    try{
+    const response = await fetch(
+      `http://localhost:3001/api/BuyerUsers/getBuyerUsersEmail?email=${encodeURIComponent(
+        email
+      )}`
+    );
+    if (response.ok) {
+      const data = await response.json();
+
+      const emailExists = data.length > 0;
+      setBuyerEmailExists(emailExists);
+    } else {
+      throw new Error('Failed to fetch buyer user data');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+  };
+
+  const checkIfSellerUserAlreadyExist = async (email: string) => {
+    try{
+    const response = await fetch(
+      `http://localhost:3001/api/SellerUsers/getBuyerUsersEmail?email=${encodeURIComponent(
+        email
+      )}`
+    );
+    if (response.ok) {
+      const data = await response.json();
+
+      const emailExists = data.length > 0;
+      setSellerEmailExists(emailExists);
+    } else {
+      throw new Error('Failed to fetch seller user data');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+  };
+
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
+    checkIfBuyerUserAlreadyExist(userDetails.email);
+    checkIfSellerUserAlreadyExist(userDetails.email);
 
     if (!accessToken) {
       navigate("/");
+    }
+
+    if(buyerEmailExists){
+      navigate("/BuyerDashboard");
+    }
+
+    if(sellerEmailExists){
+      navigate("/SellerDashboard");
     }
 
     getUserDetails(accessToken);
@@ -41,7 +93,6 @@ export default function Secure() {
             <Link to="/account">
               <button>Set up your account</button>
             </Link>
-
           </div>
         </div>
       ) : (

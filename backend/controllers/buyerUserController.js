@@ -28,27 +28,10 @@ const getBuyerUserById = async (req, res) => {
   }
 }
 
-// const createBuyerUser = async (req, res) => {
-//   try {
-//     const { firstName, lastName, email, password } = req.body;
-//     const newUser = await createBuyerUserRepo({
-//       firstName,
-//       lastName,
-//       email,
-//       password,
-//     });
-//     res.status(201).json(newUser);
-//   } catch (error) {
-//     console.error("Error creating buyer user:", error);
-//     res.status(500).send(error);
-//   }
-// };
-
 const createBuyerUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
-    // Check if user with this email already exists using the repository function
     const emailExists = await checkBuyerUserByEmail(email);
 
     if (emailExists) {

@@ -3,7 +3,8 @@ const {
   getSellerUserRepo,
   createSellerUserRepo,
   updateSellerUserRepo,
-  deleteSellerUserRepo
+  deleteSellerUserRepo,
+  checkSellerUserByEmail 
 } = require("../repositories/sellerUserRepo");
 
 const getSellerUsers = async (req, res) => {
@@ -29,6 +30,15 @@ const getSellerUserById = async (req, res) => {
 const createSellerUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
+
+
+    const emailExists = await checkSellerUserByEmail(email);
+
+    if (emailExists) {
+      return res.status(400).json({ error: 'User with this email already exists' });
+    }
+
+    // If user with this email doesn't exist, create the new user
     const newUser = await createSellerUserRepo({
       firstName,
       lastName,
