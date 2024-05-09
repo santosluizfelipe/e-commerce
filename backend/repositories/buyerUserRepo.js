@@ -24,6 +24,21 @@ const getBuyerUserRepo = async (userId) => {
   }
 };
 
+const checkBuyerUserByEmail = async (email) => {
+  try {
+    const existingUser = await BuyerUser.findOne({
+      where: {
+        email: email
+      }
+    });
+    
+    return existingUser !== null; // Returning true if user exists, false otherwise
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error while checking buyer user by email');
+  }
+};
+
 const createBuyerUserRepo = async (userData) => {
   try {
     const newBuyerUser = await BuyerUser.create(userData);
@@ -67,5 +82,6 @@ module.exports = {
   getBuyerUserRepo,
   createBuyerUserRepo,
   updateBuyerUserRepo,
-  deleteBuyerUserRepo
+  deleteBuyerUserRepo,
+  checkBuyerUserByEmail
 };

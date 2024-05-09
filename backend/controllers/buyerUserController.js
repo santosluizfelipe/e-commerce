@@ -3,7 +3,8 @@ const {
   getBuyerUserRepo,
   createBuyerUserRepo,
   updateBuyerUserRepo,
-  deleteBuyerUserRepo
+  deleteBuyerUserRepo,
+  checkBuyerUserByEmail
 } = require("../repositories/buyerUserRepo");
 
 
@@ -27,21 +28,43 @@ const getBuyerUserById = async (req, res) => {
   }
 }
 
+// const createBuyerUser = async (req, res) => {
+//   try {
+//     const { firstName, lastName, email, password } = req.body;
+//     const newUser = await createBuyerUserRepo({
+//       firstName,
+//       lastName,
+//       email,
+//       password,
+//     });
+//     res.status(201).json(newUser);
+//   } catch (error) {
+//     console.error("Error creating buyer user:", error);
+//     res.status(500).send(error);
+//   }
+// };
+
 const createBuyerUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
-    const newUser = await createBuyerUserRepo({
-      firstName,
-      lastName,
-      email,
-      password,
-    });
+
+    // Check if user with this email already exists using the repository function
+    const emailExists = await checkBuyerUserByEmail(email);
+
+    if (emailExists) {
+      return res.status(400).json({ error: 'User with this email already exists' });
+    }
+
+    // If user with this email doesn't exist, create the new user
+    const newUser = await createBuyerUserRepo({ firstName, lastName, email, password });
+
     res.status(201).json(newUser);
   } catch (error) {
     console.error("Error creating buyer user:", error);
     res.status(500).send(error);
   }
 };
+
 
 const updateBuyerUser = async (req, res) => {
   try {

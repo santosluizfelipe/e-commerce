@@ -78,6 +78,7 @@ const Account: React.FC = () => {
   
       if (response.ok) {
         console.log(`${userType} user account created successfully.`);
+        userType === 'buying' ? navigate("/BuyerDashboard") : navigate("/SellerDashboard")
       } else {
         console.error(`Failed to create ${userType} user account.`);
       }
