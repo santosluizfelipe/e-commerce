@@ -4,7 +4,7 @@ const {
   createSellerUserRepo,
   updateSellerUserRepo,
   deleteSellerUserRepo,
-  checkSellerUserByEmail 
+  checkSellerUserByEmailRepo 
 } = require("../repositories/sellerUserRepo");
 
 const getSellerUsers = async (req, res) => {
@@ -32,7 +32,7 @@ const createSellerUser = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
 
-    const emailExists = await checkSellerUserByEmail(email);
+    const emailExists = await checkSellerUserByEmailRepo(email);
 
     if (emailExists) {
       return res.status(400).json({ error: 'User with this email already exists' });
@@ -51,6 +51,20 @@ const createSellerUser = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+const checkSellerUserByEmail = async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    const emailExists = await checkSellerUserByEmailRepo(email);
+
+    res.status(200).json({ emailExists });
+  } catch (error) {
+    console.error('Error checking seller user by email:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 
 
 const updateSellerUser = async (req, res) => {
@@ -92,5 +106,6 @@ module.exports = {
   createSellerUser,
   updateSellerUser,
   deleteSellerUser,
-  getSellerUserById
+  getSellerUserById,
+  checkSellerUserByEmail
 };

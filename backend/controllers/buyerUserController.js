@@ -4,7 +4,7 @@ const {
   createBuyerUserRepo,
   updateBuyerUserRepo,
   deleteBuyerUserRepo,
-  checkBuyerUserByEmail
+  checkBuyerUserByEmailRepo
 } = require("../repositories/buyerUserRepo");
 
 
@@ -32,7 +32,7 @@ const createBuyerUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
-    const emailExists = await checkBuyerUserByEmail(email);
+    const emailExists = await checkBuyerUserByEmailRepo(email);
 
     if (emailExists) {
       return res.status(400).json({ error: 'User with this email already exists' });
@@ -45,6 +45,19 @@ const createBuyerUser = async (req, res) => {
   } catch (error) {
     console.error("Error creating buyer user:", error);
     res.status(500).send(error);
+  }
+};
+
+const checkBuyerUserByEmail = async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    const emailExists = await checkBuyerUserByEmailRepo(email);
+
+    res.status(200).json({ emailExists });
+  } catch (error) {
+    console.error('Error checking Buyer user by email:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -88,5 +101,6 @@ module.exports = {
   createBuyerUser,
   updateBuyerUser,
   deleteBuyerUser,
-  getBuyerUserById
+  getBuyerUserById,
+  checkBuyerUserByEmail
 }

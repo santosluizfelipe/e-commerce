@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import { Modal, Input, Select, Button, Form } from "./Account.style";
 
@@ -41,17 +41,18 @@ const Account: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData(prevFormData => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      userType: e.target.value,
-    });
+    const { value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      userType: value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

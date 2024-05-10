@@ -5,8 +5,8 @@ import Cookies from "js-cookie";
 export default function Secure() {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState<any>({});
-  const [buyerEmailExists, setBuyerEmailExists] = useState<boolean>(false)
-  const [sellerEmailExists, setSellerEmailExists] = useState<boolean>(false)
+  const [buyerEmailExists, setBuyerEmailExists] = useState<boolean>(false);
+  const [sellerEmailExists, setSellerEmailExists] = useState<boolean>(false);
 
   const getUserDetails = async (accessToken: any) => {
     const response = await fetch(
@@ -17,64 +17,64 @@ export default function Secure() {
   };
 
   const checkIfBuyerUserAlreadyExist = async (email: string) => {
-    try{
-    const response = await fetch(
-      `http://localhost:3001/api/BuyerUsers/getBuyerUsersEmail?email=${encodeURIComponent(
-        email
-      )}`
-    );
-    if (response.ok) {
-      const data = await response.json();
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/buyerUsers/checkBuyerUserByEmail?email=${encodeURIComponent(
+          email
+        )}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log("buyeruser data =>", data);
 
-      const emailExists = data.length > 0;
-      setBuyerEmailExists(emailExists);
-    } else {
-      throw new Error('Failed to fetch buyer user data');
+        setBuyerEmailExists(data.emailExists);
+      } else {
+        throw new Error("Failed to fetch buyer user data");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
-  } catch (error) {
-    console.error('Error:', error);
-  }
   };
 
   const checkIfSellerUserAlreadyExist = async (email: string) => {
-    try{
-    const response = await fetch(
-      `http://localhost:3001/api/SellerUsers/getBuyerUsersEmail?email=${encodeURIComponent(
-        email
-      )}`
-    );
-    if (response.ok) {
-      const data = await response.json();
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/sellerUsers/checkSellerUserByEmail?email=${encodeURIComponent(
+          email
+        )}`
+      );
 
-      const emailExists = data.length > 0;
-      setSellerEmailExists(emailExists);
-    } else {
-      throw new Error('Failed to fetch seller user data');
+      if (response.ok) {
+        const data = await response.json();
+        console.log("selleruser data =>", data);
+        const emailExists = data.emailExists;
+        setSellerEmailExists(emailExists);
+      } else {
+        throw new Error("Failed to fetch seller user data");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
-  } catch (error) {
-    console.error('Error:', error);
-  }
   };
 
   useEffect(() => {
     const accessToken = Cookies.get("access_token");
-    checkIfBuyerUserAlreadyExist(userDetails.email);
-    checkIfSellerUserAlreadyExist(userDetails.email);
-
     if (!accessToken) {
       navigate("/");
     }
-
-    if(buyerEmailExists){
-      navigate("/BuyerDashboard");
-    }
-
-    if(sellerEmailExists){
-      navigate("/SellerDashboard");
-    }
-
     getUserDetails(accessToken);
-  }, [navigate]);
+  }, []);
+
+  useEffect(() => {
+    if (userDetails.email) {
+      checkIfBuyerUserAlreadyExist(userDetails.email);
+      checkIfSellerUserAlreadyExist(userDetails.email);
+    }
+  }, [userDetails.email]); 
+
+  console.log("state buyer =>", buyerEmailExists);
+  console.log("state seller=>", sellerEmailExists);
+  console.log("userDetails.email=>", userDetails.email);
 
   return (
     <>
@@ -93,6 +93,18 @@ export default function Secure() {
             <Link to="/account">
               <button>Set up your account</button>
             </Link>
+
+            {buyerEmailExists && (
+              <Link to="/BuyerDashboard">
+                <button>Go shopping</button>
+              </Link>
+            )}
+
+            {sellerEmailExists && (
+              <Link to="/SellerDashboard">
+                <button>Make some cash selling your products</button>
+              </Link>
+            )}
           </div>
         </div>
       ) : (

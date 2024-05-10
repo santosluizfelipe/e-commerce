@@ -25,7 +25,7 @@ const getSellerUserRepo = async (userId) => {
   }
 };
 
-const checkSellerUserByEmail = async (email) => {
+const checkSellerUserByEmailRepo = async (email) => {
   try {
     const existingUser = await SellerUser.findOne({
       where: {
@@ -84,5 +84,5 @@ module.exports = {
   createSellerUserRepo,
   updateSellerUserRepo,
   deleteSellerUserRepo,
-  checkSellerUserByEmail 
+  checkSellerUserByEmailRepo 
 };
