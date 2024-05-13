@@ -74,7 +74,7 @@ export default function Secure() {
 
   console.log("state buyer =>", buyerEmailExists);
   console.log("state seller=>", sellerEmailExists);
-  console.log("userDetails.email=>", userDetails.email);
+  console.log("userDetails.email=>", userDetails);
 
   return (
     <>
@@ -89,10 +89,13 @@ export default function Secure() {
             <p>Welcome</p>
             <h1 className="name">{userDetails.name}</h1>
             <p className="email">{userDetails.email}</p>
-            <p className="locale">{`Location: ${userDetails.locale}`}</p>
-            <Link to="/account">
+            <p className="locale">{`Location: ${userDetails.picture}`}</p>
+            {!buyerEmailExists && (
+              <Link to="/account">
               <button>Set up your account</button>
             </Link>
+            )}
+            
 
             {buyerEmailExists && (
               <Link to="/BuyerDashboard">
