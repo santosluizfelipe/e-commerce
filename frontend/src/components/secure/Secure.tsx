@@ -92,7 +92,7 @@ export default function Secure() {
             <p className="locale">{`Location: ${userDetails.picture}`}</p>
             {!buyerEmailExists && (
               <Link to="/account">
-              <button>Set up your account</button>
+              <button>create your account</button>
             </Link>
             )}
             

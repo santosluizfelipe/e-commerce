@@ -72,7 +72,7 @@ const updateSellerUser = async (req, res) => {
     const { id } = req.params;
     const { firstName, lastName, email, password } = req.body;
 
-    // Call the repository function to update the user
+
     const updatedUser = await updateSellerUserRepo(id, {
       firstName,
       lastName,
